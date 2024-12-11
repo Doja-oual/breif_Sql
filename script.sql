@@ -191,4 +191,87 @@ SELECT * FROM doctors
 WHERE department_id = (SELECT id FROM departments WHERE department_name = 'Cardiologie')
    OR department_id = (SELECT id FROM departments WHERE department_name = 'Neurologie');
 
+----ex8 
+SELECT * 
+FROM admissions 
+WHERE admission_date BETWEEN '2024-11-01' AND '2024-11-07';
+
+-------ex9
+SELECT first_name, last_name, date_of_birth,
+       CASE 
+           WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) < 18 THEN 'Enfant'
+           WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) BETWEEN 18 AND 60 THEN 'Adulte'
+           ELSE 'Senior'
+       END AS age_category
+FROM patients;
+
+----ex10
+SELECT COUNT(*) AS total_appointments 
+FROM appointments;
+
+--ex11
+SELECT department_id, COUNT(*) AS number_of_doctors
+FROM doctors
+GROUP BY department_id;
+
+
+
+
+----ex12
+
+SELECT AVG(TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) AS average_age
+FROM patients;
+
+
+
+--ex13
+SELECT MAX(appointment_date) AS latest_appointment_date, 
+       MAX(appointment_time) AS latest_appointment_time
+FROM appointments;
+
+
+----ex14
+SELECT room_id, SUM(admission_count) AS total_admissions
+FROM admissions
+GROUP BY room_id;
+
+
+----ex15
+SELECT * 
+FROM patients
+WHERE email IS NULL OR email = '';
+
+--ex16
+---------
+
+--ex17
+DELETE FROM appointments 
+WHERE appointment_date < '2024-01-01';
+
+--ex18
+UPDATE departments
+SET department_name = 'Cancer Treatment'
+WHERE department_name = 'Oncology';
+
+---ex19
+
+SELECT gender, COUNT(*) AS number_of_patients
+FROM patients
+GROUP BY gender
+HAVING COUNT(*) >= 2;
+
+----ex20
+CREATE VIEW admissions_actives AS
+SELECT 
+    admission_id,
+    patient_id,
+    room_id,
+    admission_date,
+    discharge_date
+FROM admissions
+WHERE discharge_date IS NULL OR discharge_date >= CURRENT_DATE();
+SELECT * FROM admissions_actives;
+
+
+
 
