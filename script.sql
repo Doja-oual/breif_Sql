@@ -231,9 +231,12 @@ FROM appointments;
 
 
 ----ex14
-SELECT room_id, SUM(admission_count) AS total_admissions
+SELECT room_id, 
+       SUM(1) AS total_admissions
 FROM admissions
 GROUP BY room_id;
+
+
 
 
 ----ex15
@@ -272,6 +275,6 @@ FROM admissions
 WHERE discharge_date IS NULL OR discharge_date >= CURRENT_DATE();
 SELECT * FROM admissions_actives;
 
-
+DROP VIEW active_admissions;
 
 
